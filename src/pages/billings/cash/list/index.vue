@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { ICash } from '@/views/billings/cash/types'
-import { useBillingStore } from '@/views/billings/cash/useBillingStore'
-import { avatarText } from '@core/utils/formatters'
-import { formatDate, getMonetaryValue } from '@layouts/utils'
+import { IUserData } from '@/services/types';
+import type { ICash } from '@/views/billings/cash/types';
+import { useBillingStore } from '@/views/billings/cash/useBillingStore';
+import { avatarText } from '@core/utils/formatters';
+import { formatDate, getMonetaryValue } from '@layouts/utils';
 
 // 👉 Store
 const billingListStore = useBillingStore()
@@ -15,6 +16,16 @@ const totalPage = ref(1)
 const totalItems = ref(0)
 const cash = ref<ICash[]>([])
 const selectedRows = ref<string[]>([])
+const userData: IUserData | null = JSON.parse(localStorage.getItem('userData') || 'null');
+const isDialogVisible = ref(false);
+const operator = ref(0);
+const openingDate = ref("");
+
+onMounted(() => {
+  if(userData) {
+    operator.value = userData.id;
+  }
+})
 
 // 👉 Fetch Cash
 watchEffect(() => {
@@ -93,10 +104,11 @@ const resolveStatusVariantAndIcon = (status: string) => {
         <!-- 👉 Open Cash -->
         <VBtn
           prepend-icon="tabler-plus"
-          :to="{ name: 'apps-invoice-add' }"
+          @click="isDialogVisible = true"
         >
           Abrir Cash
         </VBtn>
+        
       </div>
 
       <VSpacer />
@@ -374,6 +386,52 @@ const resolveStatusVariantAndIcon = (status: string) => {
       />
     </VCardText>
     <!-- !SECTION -->
+
+    <!-- DIALOG Create Cash -->
+    <VDialog
+      v-model="isDialogVisible"
+      max-width="400"
+    >
+      <!-- Dialog close btn -->
+      <DialogCloseBtn @click="isDialogVisible = !isDialogVisible" />
+
+      <!-- Dialog Content -->
+      <VCard title="Abrir cash">
+        <VCardText>
+          <VRow>
+            <VCol cols="12">
+              <!-- TODO: instalar o VDataPicker do vuetify e substituir esse campo -->
+              <VTextField
+                v-model="openingDate"
+                label="Data de abertura *"
+                placeholder="DD/MM/YYYY"
+              />
+            </VCol>
+            <VCol cols="12">
+              <VAutocomplete
+                v-model="operator"
+                :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
+                label="Operador *"
+              />
+            </VCol>
+          </VRow>
+        </VCardText>
+
+        <VCardText class="d-flex justify-end flex-wrap gap-3">
+          <VBtn
+            variant="tonal"
+            color="secondary"
+            @click="isDialogVisible = false"
+          >
+            Cancelar
+          </VBtn>
+          <VBtn @click="isDialogVisible = false">
+            Salvar
+          </VBtn>
+        </VCardText>
+      </VCard>
+    </VDialog>
+    <!-- !DIALOG -->
   </VCard>
 </template>
 
