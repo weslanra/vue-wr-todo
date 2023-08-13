@@ -15,5 +15,8 @@ import './apps/invoice'
 // Dashboard
 import './dashboard/analytics'
 
+// Billings
+import './billings/cash'
+
 // forwards the matched request over network
 mock.onAny().passThrough()

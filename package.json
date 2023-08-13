@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config-vue": "^0.31.0",
+    "@faker-js/faker": "^8.0.2",
     "@fullcalendar/core": "^5.11.3",
     "@fullcalendar/daygrid": "^5.11.3",
     "@fullcalendar/interaction": "^5.11.3",

@@ -1,3 +1,6 @@
+import mock from '@/@fake-db/mock'
+import type { Invoice } from '@/@fake-db/types'
+import { paginateArray } from '@/@fake-db/utlis'
 import avatar1 from '@images/avatars/avatar-1.png'
 import avatar2 from '@images/avatars/avatar-2.png'
 import avatar3 from '@images/avatars/avatar-3.png'
@@ -6,9 +9,6 @@ import avatar5 from '@images/avatars/avatar-5.png'
 import avatar6 from '@images/avatars/avatar-6.png'
 import avatar7 from '@images/avatars/avatar-7.png'
 import avatar8 from '@images/avatars/avatar-8.png'
-import { paginateArray } from '@/@fake-db/utlis'
-import type { Invoice } from '@/@fake-db/types'
-import mock from '@/@fake-db/mock'
 
 const now = new Date()
 const currentMonth = now.toLocaleString('default', { month: '2-digit' })

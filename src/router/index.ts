@@ -1,7 +1,8 @@
-import { canNavigate } from '@layouts/plugins/casl'
-import { createRouter, createWebHistory } from 'vue-router'
-import routes from '~pages'
-import { isUserLoggedIn } from './utils'
+import { canNavigate } from '@layouts/plugins/casl';
+import { setupLayouts } from 'layouts-generated';
+import { createRouter, createWebHistory } from 'vue-router';
+import routes from '~pages';
+import { isUserLoggedIn } from './utils';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,7 +31,7 @@ const router = createRouter({
       path: '/pages/account-settings',
       redirect: () => ({ name: 'pages-account-settings-tab', params: { tab: 'account' } }),
     },
-    ...setupLayvouts(routes),
+    ...setupLayouts(routes),
   ],
 })
 

@@ -1,5 +1,5 @@
-import type { Router } from 'vue-router'
 import type { NavGroup, NavLink, NavLinkProps } from '@layouts/types'
+import type { Router } from 'vue-router'
 
 export const openGroups = ref<string[]>([])
 
@@ -87,4 +87,42 @@ export const hexToRgb = (hex: string) => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 
   return result ? `${parseInt(result[1], 16)},${parseInt(result[2], 16)},${parseInt(result[3], 16)}` : null
+}
+
+export const registerLog = (message: string, pageOrFunction: string, type: "error" | "warning" | "info" | "success") => {
+  console.log(`Registro de log '${pageOrFunction}', ${type}: ${message}`);
+}
+
+export const getMonetaryValue = (value: number): string => {
+  // TODO: colocar o Símbolos monetários de acordo com a configuração que o cliente optar;
+  return `R$ ${value}`;
+}
+
+export const formatDate = (date: Date, dateTime: boolean = true, tracking: string = "formatDate"): string => {
+  let options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  };
+
+  if(dateTime) {
+    options = {
+      ...options,
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+    }
+  }
+
+  // const formattedDateIntl = new Intl.DateTimeFormat('en-US', options).format(date);
+  // const formattedDateEU = new Intl.DateTimeFormat('eu', options).format(date);
+  // const formattedDateUK = new Intl.DateTimeFormat('en-GB', options).format(date);
+  try {
+    // TODO: colocar o formato da data de acordo com a configuração que o cliente optar;
+    const formattedDate = new Intl.DateTimeFormat('pt-BR', options).format(date);
+    return formattedDate;
+  } catch(e: any) {
+    registerLog(e.message, tracking, "error");
+    return "";
+  }
 }

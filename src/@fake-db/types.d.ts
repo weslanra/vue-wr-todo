@@ -274,6 +274,22 @@ export interface EmailAttachment {
   size: string
 }
 
+// !SECTION Billing: Cash
+export interface IOperator {
+  avatar: string;
+  name: string;
+  email: string;
+}
+
+export interface ICash {
+  id: number;
+  openingDate: string;
+  operator: IOperator;
+  status: "Aberto" | "Fechado";
+  total: number;
+  averageOfDay: number;
+}
+
 /*
   - You can have draft mail in your inbox
     - We can have flag isDraft for mail
